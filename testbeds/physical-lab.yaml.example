@@ -1,0 +1,17 @@
+# TEMPLATE, untested. Physical lab over SSH, optionally via a jump host.
+testbed:
+  name: physical-lab
+  credentials:
+    default:
+      username: "%ENV{USER}"
+      password: "%ASK{TACACS password}"   # prompted at run time, not stored
+devices:
+  jump:
+    os: linux
+    type: linux
+    connections: {cli: {protocol: ssh, ip: 192.0.2.10}}
+  sw-lab-01:
+    os: iosxe
+    type: switch
+    connections:
+      cli: {protocol: ssh, ip: 192.0.2.21, proxy: jump}

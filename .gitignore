@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+# work-internal standard + results derived from it
+standards/mandatory.cfg
+standards/iol_l2_compat.json
+# symlink to ../../labs/pyats-lab/testbed.yaml (outside this folder); a real copy is testbeds/clab-pyats-lab.yaml.example
+testbeds/clab-pyats-lab.yaml

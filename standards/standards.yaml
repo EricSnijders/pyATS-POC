@@ -1,0 +1,11 @@
+# Edited by standards owners (no code). The tests in tests/ read this file.
+
+versions:                           # allowed software version prefixes, per pyATS os
+  iosxe: ["17.15", "17.18"]
+  ios:   ["15.9", "15.2"]
+
+interfaces:
+  ignore: ["^Null", "^Loopback"]    # regexes for interfaces the health check skips
+
+ospf:
+  require_state: FULL               # every neighbour must be in this state

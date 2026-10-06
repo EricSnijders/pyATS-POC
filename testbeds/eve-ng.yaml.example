@@ -1,0 +1,14 @@
+# TEMPLATE, untested. EVE-NG nodes are usually reached via telnet to the EVE host,
+# one console port per node (see the node list / "Telnet" link in the EVE UI).
+testbed:
+  name: eve-ng
+  credentials:
+    default:
+      username: "%ENV{USER}"            # or a lab-local account
+      password: "%ENV{LAB_PASS}"
+devices:
+  R1:
+    os: iosxe
+    type: router
+    connections:
+      cli: {protocol: telnet, ip: 10.0.0.50, port: 32769}   # EVE host + console port

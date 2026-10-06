@@ -1,0 +1,9 @@
+# Single IOL-L2 node used by iol_compat.py. Default clab config (mgmt + ssh, admin/admin).
+# Swap the image tag to test another IOL version (l2-17.18.02 currently crashes: truncated binary).
+name: iolcompat
+topology:
+  nodes:
+    sw:
+      kind: cisco_iol
+      type: l2
+      image: vrnetlab/cisco_iol:l2-17.15.01

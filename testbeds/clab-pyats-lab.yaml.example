@@ -1,0 +1,25 @@
+# Usage: pyats parse "show version" --testbed-file testbed.yaml --devices r1
+#        pyats learn ospf --testbed-file testbed.yaml --output snap1
+# Run `clab deploy -t pyats-lab.clab.yaml` first. Credentials are the clab defaults.
+testbed:
+  name: pyats-lab
+  credentials:
+    default:
+      username: admin
+      password: admin
+
+
+# Old vIOS 15.9 only offers legacy SSH algorithms (see vr1/vsw1 ssh_options)
+devices:
+  r1:  {os: iosxe, type: router, connections: {cli: {protocol: ssh, ip: 172.20.30.11, ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null}}}
+  r2:  {os: iosxe, type: router, connections: {cli: {protocol: ssh, ip: 172.20.30.12, ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null}}}
+  sw1: {os: iosxe, type: switch, connections: {cli: {protocol: ssh, ip: 172.20.30.14, ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null}}}
+  vr1:  {os: ios, type: router, connections: {cli: {protocol: ssh, ip: 172.20.30.13, ssh_options: -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null}}}
+  vsw1: {os: ios, type: switch, connections: {cli: {protocol: ssh, ip: 172.20.30.15, ssh_options: -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null}}}
+
+topology:
+  r1:   {interfaces: {Ethernet0/1: {link: r1-r2, type: ethernet}, Ethernet0/2: {link: r1-sw1, type: ethernet}}}
+  r2:   {interfaces: {Ethernet0/1: {link: r1-r2, type: ethernet}, Ethernet0/2: {link: r2-vr1, type: ethernet}}}
+  vr1:  {interfaces: {GigabitEthernet0/1: {link: r2-vr1, type: ethernet}}}
+  sw1:  {interfaces: {Ethernet0/1: {link: r1-sw1, type: ethernet}, Ethernet0/2: {link: sw1-vsw1, type: ethernet}}}
+  vsw1: {interfaces: {GigabitEthernet0/1: {link: sw1-vsw1, type: ethernet}}}
